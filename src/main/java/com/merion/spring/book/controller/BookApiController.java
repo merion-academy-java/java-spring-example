@@ -36,6 +36,10 @@ public class BookApiController {
         return bookService.create(book.getTitle(), book.getDescription());
     }
 
+    @PutMapping("/api/v1/book/{id}")
+    public BookEntity edit(@PathVariable Integer id, @RequestBody BookEntity book){
+        return bookService.edit(book).orElseThrow(ResourceNotFoundException::new);
+    }
 
 
 }
