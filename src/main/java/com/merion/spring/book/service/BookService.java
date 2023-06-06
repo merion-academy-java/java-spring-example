@@ -4,10 +4,7 @@ import com.merion.spring.base.exception.ResourceNotFoundException;
 import com.merion.spring.book.entity.BookEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class BookService {
@@ -63,6 +60,24 @@ public class BookService {
 
         bookStorage.remove(book.get());
         return true;
+    }
+
+    public Optional<BookEntity> editPart(Integer id, Map<String, String> fields) {
+        Optional<BookEntity> oldBookOptional = byId(id);
+        if(oldBookOptional.isEmpty()){
+            return Optional.empty();
+        }
+
+        BookEntity oldBook = oldBookOptional.get();
+
+        for(String key : fields.keySet()){
+            switch (key) {
+                case "title" -> oldBook.setTitle(fields.get(key));
+                case "description" -> oldBook.setDescription(fields.get(key));
+            }
+        }
+
+        return Optional.of(oldBook);
     }
 
 }
